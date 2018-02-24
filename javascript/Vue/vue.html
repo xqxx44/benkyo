@@ -9,9 +9,13 @@
   </head>
   <body>
     <div id="todoApp">
-      <div v-bind:style="StyleA" v-bind:class="ClassA">{{ message }}</div>
-      <input v-bind:class="ClassB" v-model="msg" type="text" value="">
-      <span v-bind:style="StyleB">{{ msg }}</span>
+      <div v-bind:style="font">{{ title }}</div>
+      <input type="text" v-model="todo" v-on:keyup.enter="addTodo">
+      <div>
+        <div v-for="t in todos" v-bind:key="t.id" v-bind:class="['todo-defalut', t.doing ? 'todo-doing' : '']" v-on:click="begin(t)">
+          {{ t.name }}
+        </div>
+      </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script type="text/javascript" src="js/vue.js"></script>

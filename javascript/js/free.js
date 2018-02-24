@@ -76,21 +76,28 @@ const arr = [
 console.log(arr[0].name);
 
 
-const result = arr.filter((value) => {
-  if (value.age < 30) {
-    return value;
-  }
-});
-
-const result2 = arr.filter((value, index) => value !== '')
 
 /* filterメソッド
 配列の各要素に対して、コールバック関数が1回適用され、
 コールバック関数がtrueを返す要素を集めて、新しい配列を作成する
 
 */
+const result = arr.filter((value) => {
+  if (value.age < 30) {
+    return value;
+  }
+});
 
-
-
+const result2 = arr.filter((value, index) => value.name === '斎藤')
 console.log(result2);
+
+// push
+const food = ["豆腐", "納豆", "ブロッコリー", "95%チョコレート"];
+food.push({
+  drink: "青汁",
+  func: (param) => param
+
+})
+console.log(typeof food[4].func("test"));
+
 

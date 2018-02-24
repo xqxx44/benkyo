@@ -1,28 +1,26 @@
-const app = new Vue({
-  el: '#todoApp',
+const vm = new Vue({
+  el: "#todoApp",
   data: {
-    message: 'Vue.jsの練習',
-    StyleA: {
-      color: 'red',
-      fontSize: '30px',
-      border: 'red solid 1px',
-      width: '180px',
-      paddingLeft: '1px'
-
+    title: "Welcome to Vue.js",
+    font: {
+      fontSize: "20px",
+      color: "red"
     },
-    StyleB: {
-      display: 'block',
-      color: 'silver'
+    todo: "",
+    todos: [],
+  },
+  methods: {
+    addTodo: function() {
+      this.todos.push({
+        id: this.todos.length,
+        name: this.todo,
+        doing: false
+      })
+      this.todo = ""
     },
-    ClassA: {
-      classA: true,
-      classB: false,
-      classC: true,
-    },
-    ClassB: {
-      message: true,
-    },
-    msg: '文字が変わるよ'
+    begin: function(todo) {
+      todo.doing = !todo.doing
+      console.log(todo)
+    }
   }
 })
-
