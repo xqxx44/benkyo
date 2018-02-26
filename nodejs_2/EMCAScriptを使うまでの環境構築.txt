@@ -1,0 +1,82 @@
+ECMAScriptの書き方がブラウザでも対応できるように下記URLを参照にしたが
+うまく動かなかったので、その時にやったことをまとめる
+https://qiita.com/hiroykam/items/135c51310087182b03cb
+
+これを実行したけど動かない、エラーが出る
+■browserify app.js -o bundle.js -t [ babelify --presets es2015 ]
+これを実行すると指定したjsファイル(今回はapp.js)をbundle.jsにコンパイルしてくれるらしい
+なので、HTMLが読み込んであげるのはbundle.jsを読み込む
+<script src="bundle.js"></script>
+
+が、コマンドを実行しても動かない。
+module.js:471
+    throw err;
+    ^
+
+Error: Cannot find module 'babel-core'
+    at Function.Module._resolveFilename (module.js:469:15)
+    at Function.Module._load (module.js:417:25)
+    at Module.require (module.js:497:17)
+    at require (internal/module.js:20:19)
+    at Object.<anonymous> (/Library/WebServer/Documents/git/benkyo/nodejs_2/node_modules/babelify/index.js:2:14)
+    at Module._compile (module.js:570:32)
+    at Object.Module._extensions..js (module.js:579:10)
+    at Module.load (module.js:487:32)
+    at tryModuleLoad (module.js:446:12)
+    at Function.Module._load (module.js:438:3)
+
+
+実行したディレクトリには、コンパイルがうまくいかなかったのか、
+よくわからないファイルがあるし
+> bundle.js.tmp-browserify-19676523079018082285
+> Cannot find module 'babel-core'
+なんかbabel-coreというモジュールがないとか言ってんのかな
+よくわからないがbabel-coreをインストールする。
+(わかないけど、ついでにbabel系のモジュールをインストールしてみた)
+■npm install  --save-dev babel-loader babel-core babel-preset-es2015 babel-preset-stage-0
+
+■npm install
+> npm WARN babel-loader@7.1.3 requires a peer of webpack@2 || 3 || 4 but none was installed.
+まだなんか出る
+babel-loaderには
+webpackのモジュールがないと使用できない、だからインストールしなさい。的な
+またしても、よくわからないけど、
+
+■npm install  --save-dev babel-loader
+とりあえず、babel系のモジュールをインストールした時に
+インストールしたけど、webpackがないとできないのか、再度確認。
+> UNMET PEER DEPENDENCY webpack@2 || 3 || 4
+webpackないよと言ってんのかな？
+
+■npm install --save-dev webpack
+インストールOK
+
+■npm install
+依存関係がないか確認。
+というよりローカルで環境構築しているから必要ないかも笑
+
+■browserify app.js -o bundle.js -t [ babelify --presets es2015 ]
+エラーがでない！！
+
+■ls -la
+  -app.js
+  -bundle.js
+  -index.html
+  -node_modules
+  -package.json
+  -yarn.lock
+!!!bundle.jsができてる！！
+
+■app.jsに
+import $ from 'jquery'が記述してある。
+bundle.jsを読み込ませて。
+
+ブラウザにアクセス
+■http://localhost/git/benkyo/nodejs_2/index.html
+コンソールにエラーが吐かれない
+やったー！！
+
+
+
+
+
